@@ -25,10 +25,6 @@ def init_connections(app: Flask):
   }], timeout=60)
   pprint(conn.info())
 
-def teardown_connections(e = None):
-  connections.remove_connection(APP_CONNECTION_ALIAS)
-
 def init_app(app: Flask):
   app.cli.add_command(init_schema_command)
   init_connections(app)
-  app.teardown_appcontext(teardown_connections)
