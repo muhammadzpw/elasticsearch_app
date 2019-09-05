@@ -4,6 +4,6 @@ from elasticsearch_dsl import (
 from .index import normalization_analyzer
 
 class Review(InnerDoc):
-  name = Text(analyzer = normalization_analyzer)
-  review = Text(analyzer = normalization_analyzer)
-  rating = Float()
+  username = Text(analyzer = normalization_analyzer)
+  title = Text(analyzer = normalization_analyzer)
+  content = Text(analyzer = normalization_analyzer)
