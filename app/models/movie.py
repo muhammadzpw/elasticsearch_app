@@ -6,6 +6,7 @@ from .index import (
   movie_index, completion_analyzer, normalization_analyzer
 )
 from .cast import Cast
+from .review import Review
 
 @movie_index.document
 class Movie(Document):
@@ -22,6 +23,7 @@ class Movie(Document):
   suggest = Completion(analyzer=completion_analyzer)
 
   casts = Nested(Cast)
+  reviews = Nested(Review)
 
   def clean(self):
     self.suggest = {
