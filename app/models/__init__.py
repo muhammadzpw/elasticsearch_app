@@ -4,6 +4,7 @@ import click
 from flask import current_app, g, Flask
 from flask.cli import with_appcontext
 from pprint import pprint
+from . import index, movie
 
 APP_CONNECTION_ALIAS = 'default'
 
@@ -28,3 +29,5 @@ def init_connections(app: Flask):
 def init_app(app: Flask):
   app.cli.add_command(init_schema_command)
   init_connections(app)
+  index.init_index()
+  movie.init()
