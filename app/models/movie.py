@@ -7,6 +7,7 @@ from .index import (
 )
 from .cast import Cast
 from .review import Review
+from itertools import permutations
 
 @movie_index.document
 class Movie(Document):
@@ -39,7 +40,7 @@ class Movie(Document):
 
   def clean(self):
     self.suggest = {
-      'input': [self.title, self.writers, self.directors, self.stars],
+      'input': [' '.join(p) for p in permutations(self.title.split())],
     }
 
 def init():

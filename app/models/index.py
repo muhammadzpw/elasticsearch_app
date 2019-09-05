@@ -20,7 +20,7 @@ completion_analyzer = analyzer(
 normalization_analyzer = analyzer(
   'normalization_analyzer',
   tokenizer="standard",
-  filter=["standard", "lowercase", "stop", "snowball"],
+  filter=["lowercase", "stop", "snowball"],
   char_filter=["html_strip"]
 )
 
