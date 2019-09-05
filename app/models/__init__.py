@@ -25,7 +25,7 @@ def destroy_schema_command():
 def reset_schema_command():
   index.destroy_index()
   index.init_index()
-  click.echo('Schema destroyed.')
+  click.echo('Schema reset.')
 
 def schema_init():
   index.init_index()
