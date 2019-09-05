@@ -15,10 +15,22 @@ class Movie(Document):
   year = Integer()
   summary = Text(analyzer = normalization_analyzer)
   rating = Float()
-  writers = Keyword()
-  genre = Keyword()
-  directors = Keyword()
-  stars = Keyword()
+  writers = Text(
+    analyzer = normalization_analyzer,
+    fields={'raw': Keyword()}
+  )
+  genre = Text(
+    analyzer = normalization_analyzer,
+    fields={'raw': Keyword()}
+  )
+  directors = Text(
+    analyzer = normalization_analyzer,
+    fields={'raw': Keyword()}
+  )
+  stars = Text(
+    analyzer = normalization_analyzer,
+    fields={'raw': Keyword()}
+  )
 
   suggest = Completion(analyzer=completion_analyzer)
 
@@ -28,13 +40,7 @@ class Movie(Document):
   def clean(self):
     self.suggest = {
       'input': [self.title, self.writers, self.directors, self.stars],
-      'weight': self.popularity
     }
-
-  def save(self, ** kwargs):
-    save = super().save(** kwargs)
-    Movie._index.refresh()
-    return save
 
 def init():
   Movie.init()
