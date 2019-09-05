@@ -10,15 +10,15 @@ from .review import Review
 
 @movie_index.document
 class Movie(Document):
-  img = Text(analyzer=None)
+  img = Text()
   title = Text(analyzer = normalization_analyzer)
   year = Integer()
   summary = Text(analyzer = normalization_analyzer)
-  genre = Keyword(analyzer = normalization_analyzer)
   rating = Float()
-  writers = Keyword(analyzer = normalization_analyzer)
-  directors = Keyword(analyzer = normalization_analyzer)
-  stars = Keyword(analyzer = normalization_analyzer)
+  writers = Keyword()
+  genre = Keyword()
+  directors = Keyword()
+  stars = Keyword()
 
   suggest = Completion(analyzer=completion_analyzer)
 

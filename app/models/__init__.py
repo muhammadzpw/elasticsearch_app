@@ -14,10 +14,14 @@ def init_schema_command():
   schema_init()
   click.echo('Schema initialized.')
 
+@click.command('destroy-schema')
+@with_appcontext
+def destroy_schema_command():
+  index.destroy_index()
+  click.echo('Schema destroyed.')
+
 def schema_init():
-  # TODO: Register model here
-  print("schemaaaaaaa")
-  return
+  index.init_index()
 
 def init_connections(app: Flask):
   conn = connections.create_connection(APP_CONNECTION_ALIAS, hosts=[{
@@ -28,6 +32,7 @@ def init_connections(app: Flask):
 
 def init_app(app: Flask):
   app.cli.add_command(init_schema_command)
+  app.cli.add_command(destroy_schema_command)
   init_connections(app)
-  index.init_index()
-  movie.init()
+  schema_init()
+

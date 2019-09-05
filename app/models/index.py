@@ -29,7 +29,7 @@ movie_index.analyzer(normalization_analyzer)
 def init_index():
   if not movie_index.exists():
     movie_index.create()
-
-  print('Index Exist')
-  pprint(movie_index.exists())
     
+def destroy_index():
+  if movie_index.exists():
+    movie_index.delete(ignore=404)
