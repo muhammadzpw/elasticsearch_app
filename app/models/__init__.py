@@ -20,6 +20,13 @@ def destroy_schema_command():
   index.destroy_index()
   click.echo('Schema destroyed.')
 
+@click.command('reset-schema')
+@with_appcontext
+def reset_schema_command():
+  index.destroy_index()
+  index.init_index()
+  click.echo('Schema destroyed.')
+
 def schema_init():
   index.init_index()
 
@@ -33,6 +40,7 @@ def init_connections(app: Flask):
 def init_app(app: Flask):
   app.cli.add_command(init_schema_command)
   app.cli.add_command(destroy_schema_command)
+  app.cli.add_command(reset_schema_command)
   init_connections(app)
   schema_init()
 
