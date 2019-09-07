@@ -1,0 +1,64 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<h1>Add Movie</h1>
+<input id="inputMovieUrl" name="moviesUrl" type="text" placeholder="type url movie to scrap">
+<button id="btnSubmit">Submit</button>
+<br>
+<br>
+<div id="movie-container">
+    <img id="m-img" src="" alt="">
+    <h2 id="m-title"></h2>
+    <p id="m-summary"></p>
+    <p id="m-rating"></p>
+    <p id='m-genre'></p>
+    <p id='m-director'></p>
+    <p id='m-writer'></p>
+    <p id='m-stars'></p>
+    <h3>Casts</h3>
+    <div id="m-casts"></div>
+    <h3>Review</h3>
+    <div id="m-reviews"></div>
+</div>
+
+<script>
+    $(document).ready(function(){
+        $('#movie-container').hide()
+        $("#btnSubmit").on("click", function(){
+            $('#movie-container').show()
+            $('#m-casts').empty();
+            $('#m-reviews').empty();
+            var myUrl = $("#inputMovieUrl").val();
+            $.post('http://localhost:5000/movies/add',
+            {
+                'moviesUrl' : myUrl
+            },
+            function(data, status){
+                $('#m-img').attr('src', data.img)
+                $('#m-title').text(data.title);
+                $('#m-summary').text('Summary : ' + data.summary);
+                $('#m-rating').text('Rating : ' + data.rating);
+                $('#m-genre').text('Genre : ' + data.genre.join());
+                $('#m-director').text('Directors : ' + data.directors.join());
+                $('#m-writers').text('Writers : ' + data.writers.join());
+                $('#m-stars').text('Stars : ' + data.stars.join());
+
+                for (x in data.casts) {
+                    var img = $('<img/>').attr('src', data.casts[x].img)
+                    var p = data.casts[x].name + ' as ' + data.casts[x].character
+                    var text = $('<p>'+p+'</p>')
+                    $('#m-casts').append(text);
+                }
+                for (x in data.reviews) {
+                    var username = $('<span>'+ data.reviews[x].username +'</span>');
+                    var title = $('<h4>' + data.reviews[x].title + '<h4>');
+                    var content = $('<p>' + data.reviews[x].content + '</p>')
+                    var review = $('<div></div>').append(title).append(content).append(username)
+                    $('#m-reviews').append(review)
+                }
+
+                
+            })
+
+        });
+    });
+    
+</script>
