@@ -6,6 +6,7 @@ from app.models.movie import Movie
 import click
 from flask.cli import with_appcontext
 from app.scrapper.scrapper import batch_scraping_by_genre
+from app.scrapper.scrapper_command import scrape_cmd
 
 def create_app(test_config=None):
   app = Flask(__name__)
@@ -47,6 +48,7 @@ def create_app(test_config=None):
     # movie.save()
 
   app.cli.add_command(seeds_cmd)
+  app.cli.add_command(scrape_cmd)
 
   models.init_app(app)
 

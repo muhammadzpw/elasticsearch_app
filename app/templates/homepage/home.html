@@ -161,10 +161,16 @@
                   <strong>Rating : </strong> {{ movie.rating }}/10
                 </p>
                 <p class="movie-cast">
-                  <strong>Cast : </strong> {{ ", ".join(movie.casts) }}
+                  <strong>Cast : </strong> 
+                  {% for cast in movie.casts %}
+                    {{ cast.name }},
+                  {% endfor %}
+                </p>
+                <p class="movie-director">
+                  <strong>Director : </strong> {{ ", ".join(movie.directors) }}
                 </p>
                 <a
-                  href="{{ url_for('movies.render_movie', id=movie.id) }}"
+                  href="{{ url_for('movies.render_movie', id=movie.meta.id) }}"
                   type="button"
                   class="btn btn-primary"
                   >View More</a

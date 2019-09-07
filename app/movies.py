@@ -1,5 +1,5 @@
 from flask import (
-  Blueprint, render_template, request, jsonify
+  Blueprint, render_template, request, jsonify, redirect, url_for
 )
 from elasticsearch import Elasticsearch
 from elasticsearch_dsl import Search
@@ -10,7 +10,18 @@ movies_blueprint = Blueprint('movies', __name__, url_prefix='/movies')
 
 @movies_blueprint.route('/<id>', methods=['GET'])
 def render_movie(id):
-  return render_template('movies/detail.html')
+  movie = Movie.get(id=id, ignore=404)
+  return render_template('movies/detail.html', movie = movie)
+
+@movies_blueprint.route('/edit/<id>', methods=['GET', 'POST'])
+def render_edit_movie(id):
+  movie = Movie.get(id=id, ignore=404)
+  if request.method == 'POST':
+    movie.title = request.form['title']
+    movie.summary = request.form['summary']
+    movie.save()
+    return redirect(url_for('movies.render_movie', id = movie.meta.id))
+  return render_template('movies/detail.html', movie = movie, is_edit=True)
 
 @movies_blueprint.route('/add', methods=['GET', 'POST'])
 def render_add_movies():

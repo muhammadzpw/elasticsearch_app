@@ -52,6 +52,7 @@ def single_scraping(url):
     tmp_casts = get_all_casts(movie_id)
     tmp_reviews = get_all_reviews(movie_id)
     single_result = {
+            "id": movie_id,
             "title" : movie_title,
             "link" : url,
             "img" : movie_img,

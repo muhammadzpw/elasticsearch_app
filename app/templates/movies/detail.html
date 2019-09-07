@@ -1,3 +1,166 @@
-<h1>
-  Detail Movie
-</h1>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"
+    />
+    <style>
+      body {
+        padding-top: 0px;
+      }
+      .dropdown.dropdown-lg .dropdown-menu {
+        margin-top: -1px;
+        padding: 4px 15px;
+      }
+
+      .btn-group .btn {
+        border-radius: 0;
+        margin-left: -1px;
+      }
+      .form-horizontal .form-group {
+        margin-left: 0;
+        margin-right: 0;
+      }
+
+      .back {
+        margin: 0px auto 5px;
+        /*text-align: center;*/
+      }
+
+      .photo {
+        margin-right: 10px;
+      }
+
+      .card {
+        margin: 10px 0 10px;
+        padding: 5px 20px 5px 5px;
+        border: 1px solid rgba(0, 0, 0, 0.125);
+        border-radius: 0.25rem;
+      }
+
+      .poster {
+        width: 100%;
+      }
+
+      @media screen and (min-width: 768px) {
+        #boot-search-box {
+          width: 500px;
+          margin: 0 auto;
+        }
+        .dropdown.dropdown-lg {
+          position: static !important;
+        }
+        .dropdown.dropdown-lg .dropdown-menu {
+          min-width: 500px;
+        }
+      }
+
+      header {
+        margin-bottom: 50px;
+        margin-top: 50px
+      }
+    </style>
+  </head>
+  <body>
+    <header data-block-type="headers" data-id="1" class="">
+      <div class="container">
+        <div
+          class="col-12 col-md-12 text-center text-md-center order-lg-12"
+          style="z-index: 10000;"
+        >
+          <h2><span style="color: rgb(84, 172, 210);">Moovie</span></h2>
+        </div>
+      </div>
+    </header>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-2"></div>
+        <div class="col-lg-8">
+          <div class="back">
+            {% if not is_edit %}
+                <a
+                href="{{ url_for('homepage.render_homepage') }}"
+                type="button"
+                class="btn btn-danger"
+                >Back</a
+                >
+                <a href="{{ url_for('movies.render_edit_movie', id=movie.meta.id) }}" type="button" class="btn btn-primary">Edit</a>
+            {% else %}
+                <a
+                href="{{ url_for('movies.render_movie', id=movie.meta.id) }}"
+                type="button"
+                class="btn btn-danger"
+                >Back</a
+                >
+            {% endif %}
+          </div>
+          {% if is_edit %}<form method="POST">{% endif %}
+          <div class="card">
+            <div class="row">
+              <div class="col-lg-4">
+                <img src="{{ movie.img or '' }}" class="poster" />
+              </div>
+              <div class="col-lg-8">
+                <h4 class="movie-title">
+                    {% if not is_edit %}
+                        {{ movie.title }}
+                    {% else %}
+                        <input type="text" value="{{ movie.title }}" name="title"/>
+                    {% endif %}
+                </h4>
+                <p class="movie-desc">
+                    {% if not is_edit %}
+                        {{ movie.summary }}
+                    {% else %}
+                        <textarea style="width: 100%; max-width: 100%;" type="text" name="summary">{{ movie.summary }}</textarea>
+                    {% endif %}
+                </p>
+                <p class="movie-genre">
+                    <strong>Year : </strong> {{ movie.year }}
+                </p>
+                <p class="movie-genre">
+                  <strong>Genre : </strong> {{ ", ".join(movie.genre) }}
+                </p>
+                <p class="movie-rating">
+                  <strong>Rating : </strong> {{ movie.rating }}/10
+                </p>
+                <p class="movie-cast">
+                  <strong>Cast : </strong>
+                  {% for cast in movie.casts %}
+                    {{ cast.name }} as <strong>{{ cast.character }}</strong>, 
+                  {% endfor %}
+                </p>
+                <p class="movie-director">
+                  <strong>Director : </strong> {{ ", ".join(movie.directors) }}
+                </p>
+                {% if is_edit %}<button type="submit" class="btn btn-primary">Save</button>{% endif %}
+              </div>
+            </div>
+          </div>
+          {% if is_edit %}</form>{% endif %}
+          <!-- <div class="card">
+            <div class="row">
+              <div class="col-lg-12">
+                <h4 class="reviewer-name">John Doe</h4>
+                <p class="movie-desc">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                  Nostrum excepturi voluptas rerum, molestiae quidem, molestias
+                  corporis dignissimos, sed nam eligendi, dolorem adipisci
+                  doloremque veritatis enim consequatur fugiat vitae!
+                  Asperiores, sit?
+                </p>
+                <p class="movie-rating"><strong>Rating : </strong></p>
+              </div>
+            </div>
+          </div> -->
+        </div>
+        <div class="col-lg-2"></div>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+  </body>
+</html>
