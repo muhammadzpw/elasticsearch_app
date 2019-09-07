@@ -35,7 +35,7 @@ def init_connections(app: Flask):
     'host': os.environ.get('ES_HOST', 'localhost'),
     'port': os.environ.get('ES_PORT', 9200)
   }], timeout=60)
-  pprint(conn.info())
+  pprint(conn.cluster.health())
 
 def init_app(app: Flask):
   app.cli.add_command(init_schema_command)
