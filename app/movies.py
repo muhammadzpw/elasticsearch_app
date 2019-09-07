@@ -8,8 +8,8 @@ from app.scrapper.scrapper import single_scraping
 
 movies_blueprint = Blueprint('movies', __name__, url_prefix='/movies')
 
-@movies_blueprint.route('/', methods=['GET'])
-def render_movies():
+@movies_blueprint.route('/<id>', methods=['GET'])
+def render_movie(id):
   return render_template('movies/detail.html')
 
 @movies_blueprint.route('/add', methods=['GET', 'POST'])
